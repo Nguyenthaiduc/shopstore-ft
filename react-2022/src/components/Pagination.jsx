@@ -1,10 +1,10 @@
 import React, { useRef,memo } from 'react'
 import usePagination from '../hooks/usePagination'
 
-const Pagination = ({ totalPages, page }) => {
+const Pagination = ({ totalPages}) => {
     const {
         firstArr, lastArr, isActive, prev, next, jump
-    } = usePagination(totalPages, page)
+    } = usePagination(totalPages)
     const ref = useRef(0)
 
     return (

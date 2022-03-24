@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
-
-const usePagination = (totalPages, page) => {
-  const navigate = useNavigate()
+import useCustomRouter from './useCustomRouter'
+import {useStore} from '../context/store'
+const usePagination = (totalPages) => {
+  const {page,sort} = useStore() // truyen context
+  const { pushQuery } = useCustomRouter()
 
   const { firstArr, lastArr } = useMemo(() => {
     const newArr = [...Array(totalPages)].map((_, i) => i + 1)
+    //vi du cai trang co 20 trang đi nó sẽ hiện 1 23 
 
     if(totalPages < 4)
       return {
@@ -35,19 +37,19 @@ const usePagination = (totalPages, page) => {
 
   const prev = () => {
     const newPage = Math.max(page - 1, 1)
-    navigate(`?page=${newPage}`)
+    pushQuery({page: newPage, sort})
   }
 
   const next = () => {
     const newPage = Math.min(page + 1, totalPages)
-    navigate(`?page=${newPage}`)
+    pushQuery({page: newPage, sort})
   }
 
   const jump = (num) => {
-    navigate(`?page=${num}`)
+    pushQuery({page: num, sort})
   }
 
-  return { firstArr, lastArr, navigate, isActive, prev, next, jump }
+  return { firstArr, lastArr, isActive, prev, next, jump }
 }
 
 export default usePagination
